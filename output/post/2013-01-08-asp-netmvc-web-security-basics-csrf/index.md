@@ -40,19 +40,23 @@ ASP.NET MVC provides the AntiForgeryToken feature to protect against CSRF attack
 
 **View Code**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><font color="#990000">&lt;%</font> <b><font color="#000080">using</font></b><font color="#990000">(</font>Html<font color="#990000">.</font><b><font color="#000000">Form</font></b><font color="#990000">(</font><font color="#FF0000">"UserProfile"</font><font color="#990000">,</font> <font color="#FF0000">"SubmitUpdate"</font><font color="#990000">))</font> <font color="#FF0000">{</font> <font color="#990000">%&gt;</font>
-        <font color="#990000">&lt;%=</font> Html<font color="#990000">.</font><b><font color="#000000">AntiForgeryToken</font></b><font color="#990000">()</font> <font color="#990000">%&gt;</font>
-        <font color="#990000">&lt;!--</font> the rest of the form <font color="#008080">goes</font> here <font color="#990000">--&gt;</font>
-<font color="#990000">&lt;%</font> <font color="#FF0000">}</font> <font color="#990000">%&gt;</font></tt></pre></td></tr></tbody></table>
+```csharp
+<% using(Html.Form("UserProfile", "SubmitUpdate")) { %>
+        <%= Html.AntiForgeryToken() %>
+        <!-- the rest of the form goes here -->
+<% } %>
+```
 
 **Controller Code**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><font color="#990000">[</font>ValidateAntiForgeryToken<font color="#990000">]</font>
-<b><font color="#0000FF">public</font></b> <font color="#008080">ViewResult</font> <b><font color="#000000">SubmitUpdate</font></b><font color="#990000">()</font>
-<font color="#FF0000">{</font>
-        <i><font color="#9A1900">// your code won't be executed now unless it came from a page</font></i>
-        <i><font color="#9A1900">// that included the AntiForgeryToken() call</font></i>
-<font color="#FF0000">}</font></tt></pre></td></tr></tbody></table>
+```csharp
+[ValidateAntiForgeryToken]
+public ViewResult SubmitUpdate()
+{
+        // your code won't be executed now unless it came from a page
+        // that included the AntiForgeryToken() call
+}
+```
 
 <table style="margin:.2em 0;"><tbody><tr valign="top"><td style="padding:.5em;"><p><b><u>Important</u></b></p></td><td style="border-left:3px solid #e8e8e8;padding:.5em;"><p><b>Post Only Limitation</b></p>The AntiForgeryToken only protects POST calls, not GET. This makes it critical to follow the guidance that a GET should only be used for requests that have no side effects.</td></tr></tbody></table>
 
@@ -66,46 +70,50 @@ First, we need to implement an IFilterProvider. Below, you can find Phil Haackâ€
 
 **ConditionalFilterProvider Class**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#0000FF">public</font></b> <b><font color="#0000FF">class</font></b> <font color="#008080">ConditionalFilterProvider</font> <font color="#990000">:</font> IFilterProvider
-<font color="#FF0000">{</font>
-    <b><font color="#0000FF">private</font></b> <b><font color="#0000FF">readonly</font></b>
-      <font color="#008080">IEnumerable&lt;Func&lt;ControllerContext, ActionDescriptor, object&gt;&gt;</font> _conditions<font color="#990000">;</font>
-<div></div>
-    <b><font color="#0000FF">public</font></b> <b><font color="#000000">ConditionalFilterProvider</font></b><font color="#990000">(</font>
-      <font color="#008080">IEnumerable&lt;Func&lt;ControllerContext, ActionDescriptor, object&gt;&gt;</font> conditions<font color="#990000">)</font>
-    <font color="#FF0000">{</font>
-        _conditions <font color="#990000">=</font> conditions<font color="#990000">;</font>
-    <font color="#FF0000">}</font>
-<div></div>
-    <b><font color="#0000FF">public</font></b> <font color="#008080">IEnumerable&lt;Filter&gt;</font> <b><font color="#000000">GetFilters</font></b><font color="#990000">(</font>
-        <font color="#008080">ControllerContext</font> controllerContext<font color="#990000">,</font>
-        <font color="#008080">ActionDescriptor</font> actionDescriptor<font color="#990000">)</font>
-    <font color="#FF0000">{</font>
-        <b><font color="#0000FF">return</font></b> from <font color="#008080">condition</font> <b><font color="#0000FF">in</font></b> _conditions
-               <font color="#008080">select</font> <b><font color="#000000">condition</font></b><font color="#990000">(</font>controllerContext<font color="#990000">,</font> actionDescriptor<font color="#990000">)</font> into filter
-               <b><font color="#0000FF">where</font></b> filter <font color="#990000">!=</font> <b><font color="#0000FF">null</font></b>
-               select <font color="#008080">new</font> <b><font color="#000000">Filter</font></b><font color="#990000">(</font>filter<font color="#990000">,</font> FilterScope<font color="#990000">.</font>Global<font color="#990000">,</font> <b><font color="#0000FF">null</font></b><font color="#990000">);</font>
-    <font color="#FF0000">}</font>
-<font color="#FF0000">}</font></tt></pre></td></tr></tbody></table>
+```csharp
+public class ConditionalFilterProvider : IFilterProvider
+{
+    private readonly
+      IEnumerable<Func<ControllerContext, ActionDescriptor, object>> _conditions;
+
+    public ConditionalFilterProvider(
+      IEnumerable<Func<ControllerContext, ActionDescriptor, object>> conditions)
+    {
+        _conditions = conditions;
+    }
+
+    public IEnumerable<Filter> GetFilters(
+        ControllerContext controllerContext,
+        ActionDescriptor actionDescriptor)
+    {
+        return from condition in _conditions
+               select condition(controllerContext, actionDescriptor) into filter
+               where filter != null
+               select new Filter(filter, FilterScope.Global, null);
+    }
+}
+```
 
 Then, add code to Application\_Start that adds a new ConditionalFilterProvider to the global FilterProviders collection that ensures that all POST controller methods will require the AntiForgeryToken:
 
 **Add This Code to Application\_Start**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><font color="#008080">IEnumerable&lt;Func&lt;ControllerContext, ActionDescriptor, object&gt;&gt;</font> conditions <font color="#990000">=</font>
-    <b><font color="#0000FF">new</font></b> Func<font color="#990000">&lt;</font>ControllerContext<font color="#990000">,</font> ActionDescriptor<font color="#990000">,</font> <font color="#009900">object</font><font color="#990000">&gt;[]</font> <font color="#FF0000">{</font>
-        <i><font color="#9A1900">// Ensure all POST actions are automatically</font></i>
-        <i><font color="#9A1900">// decorated with the ValidateAntiForgeryTokenAttribute.</font></i>
-<div></div>
-        <font color="#990000">(</font> c<font color="#990000">,</font> a <font color="#990000">)</font> <font color="#990000">=&gt;</font> <font color="#009900">string</font><font color="#990000">.</font><b><font color="#000000">Equals</font></b><font color="#990000">(</font> c<font color="#990000">.</font>HttpContext<font color="#990000">.</font>Request<font color="#990000">.</font>HttpMethod<font color="#990000">,</font> <font color="#FF0000">"POST"</font><font color="#990000">,</font>
-        StringComparison<font color="#990000">.</font>OrdinalIgnoreCase <font color="#990000">)</font> <font color="#990000">?</font>
-        <b><font color="#0000FF">new</font></b> <b><font color="#000000">ValidateAntiForgeryTokenAttribute</font></b><font color="#990000">()</font> <font color="#990000">:</font> <b><font color="#0000FF">null</font></b>
-<font color="#FF0000">}</font><font color="#990000">;</font>
-<div></div>
-<font color="#008080">var</font> provider <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ConditionalFilterProvider</font></b><font color="#990000">(</font>conditions<font color="#990000">);</font>
-<div></div>
-<i><font color="#9A1900">// This line adds the filter we created above</font></i>
-FilterProviders<font color="#990000">.</font>Providers<font color="#990000">.</font><b><font color="#000000">Add</font></b><font color="#990000">(</font>provider<font color="#990000">);</font></tt></pre></td></tr></tbody></table>
+```csharp
+IEnumerable<Func<ControllerContext, ActionDescriptor, object>> conditions =
+    new Func<ControllerContext, ActionDescriptor, object>[] {
+        // Ensure all POST actions are automatically
+        // decorated with the ValidateAntiForgeryTokenAttribute.
+
+        ( c, a ) => string.Equals( c.HttpContext.Request.HttpMethod, "POST",
+        StringComparison.OrdinalIgnoreCase ) ?
+        new ValidateAntiForgeryTokenAttribute() : null
+};
+
+var provider = new ConditionalFilterProvider(conditions);
+
+// This line adds the filter we created above
+FilterProviders.Providers.Add(provider);
+```
 
 If you implement the two pieces of code above, your MVC application should require the AntiForgeryToken for _every_ POST to the site. You can try it on on Phil Haackâ€™s CSRF [example web site](http://code.haacked.com/mvc-2/CsrfDemo.zip) - once protected, the CSRF attack will throw System.Web.Mvc.HttpAntiForgeryException without having to add the \[ValidateAntiForgeryToken\] annotation. This rules out a whole host of "forgetful programmer" related vulnerabilities, and is currently the best approach for eliminating CSRF.
 
