@@ -19,79 +19,91 @@ So, you might ask, what does the code look like? You can implement a very testab
 
 **Event**
 
-<table border="0" width="100%" cellpadding="10" bgcolor="#e8e8e8"><tbody><tr><td><pre><tt><b><span style="color:#0000ff;">public</span></b> <b><span style="color:#0000ff;">class</span></b> <span style="color:#008080;">Event</span>
-<span style="color:#ff0000;">{</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">string</span> Subject <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#008080;">DateTime</span> EventDate <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">string</span> Speaker <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#008080;">DateTime</span> EventStart <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-<span style="color:#ff0000;">}</span></tt></pre></td></tr></tbody></table>
+```csharp
+public class Event
+{
+    public string Subject { get; set; }
+    public DateTime EventDate { get; set; }
+    public string Speaker { get; set; }
+    public DateTime EventStart { get; set; }
+}
+```
 
 **EventRequest**
 
-<table border="0" width="100%" cellpadding="10" bgcolor="#e8e8e8"><tbody><tr><td><pre><tt><b><span style="color:#0000ff;">public</span></b> <b><span style="color:#0000ff;">class</span></b> <span style="color:#008080;">EventRequest</span>
-<span style="color:#ff0000;">{</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">int</span><span style="color:#990000;">?</span> Page <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">string</span> SearchTerm <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-<span style="color:#ff0000;">}</span></tt></pre></td></tr></tbody></table>
+```csharp
+public class EventRequest
+{
+    public int? Page { get; set; }
+    public string SearchTerm { get; set; }
+}
+```
 
 Then we’ll start a test:
 
-<table border="0" width="100%" cellpadding="10" bgcolor="#e8e8e8"><tbody><tr><td><pre><tt><span style="color:#990000;">[</span>TestMethod<span style="color:#990000;">]</span>
-<b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">void</span> <b><span style="color:#000000;">CanIDownloadAListOfEvents</span></b><span style="color:#990000;">()</span>
-<span style="color:#ff0000;">{</span>
-  <span style="color:#008080;">var</span> request <span style="color:#990000;">=</span> <b><span style="color:#0000ff;">new</span></b> <b><span style="color:#000000;">EventRequest</span></b><span style="color:#990000;">();</span>
-  <span style="color:#008080;">var</span> target <span style="color:#990000;">=</span> <b><span style="color:#0000ff;">new</span></b> <b><span style="color:#000000;">EventsService</span></b><span style="color:#990000;">();</span>
-  <span style="color:#008080;">var</span> actual <span style="color:#990000;">=</span> target<span style="color:#990000;">.</span><b><span style="color:#000000;">OnGet</span></b><span style="color:#990000;">(</span>request<span style="color:#990000;">);</span>
-  Assert<span style="color:#990000;">.</span><b><span style="color:#000000;">IsNotNull</span></b><span style="color:#990000;">(</span>actual<span style="color:#990000;">);</span>
-<span style="color:#ff0000;">}</span></tt></pre></td></tr></tbody></table>
+```csharp
+[TestMethod]
+public void CanIDownloadAListOfEvents()
+{
+  var request = new EventRequest();
+  var target = new EventsService();
+  var actual = target.OnGet(request);
+  Assert.IsNotNull(actual);
+}
+```
 
 EventsService is red because we haven’t made one yet, so let’s add one of those:
 
 **EventService**
 
-<table border="0" width="100%" cellpadding="10" bgcolor="#e8e8e8"><tbody><tr><td><pre><tt><b><span style="color:#0000ff;">public</span></b> <b><span style="color:#0000ff;">class</span></b> <span style="color:#008080;">EventsService</span> <span style="color:#990000;">:</span> RestServiceBase<span style="color:#990000;">&lt;</span>EventRequest<span style="color:#990000;">&gt;</span>
-<span style="color:#ff0000;">{</span>
-  <b><span style="color:#0000ff;">public</span></b> <b><span style="color:#0000ff;">override</span></b> <span style="color:#009900;">object</span> <b><span style="color:#000000;">OnGet</span></b><span style="color:#990000;">(</span><span style="color:#008080;">EventRequest</span> request<span style="color:#990000;">)</span>
-  <span style="color:#ff0000;">{</span>
-    <b><span style="color:#0000ff;">return</span></b> <b><span style="color:#0000ff;">new</span></b> <b><span style="color:#000000;">EventResponse</span></b><span style="color:#990000;">();</span>
-  <span style="color:#ff0000;">}</span>
-<span style="color:#ff0000;">}</span></tt></pre></td></tr></tbody></table>
+```csharp
+public class EventsService : RestServiceBase<EventRequest>
+{
+  public override object OnGet(EventRequest request)
+  {
+    return new EventResponse();
+  }
+}
+```
 
 Here’s where Service Stack does some magic… To wire up a service on that Events request object, we just need to annotate it properly:
 
 **EventRequest**
 
-<table border="0" width="100%" cellpadding="10" bgcolor="#e8e8e8"><tbody><tr><td><pre><tt><span style="color:#990000;">[</span>DataContract<span style="color:#990000;">]</span>
-<span style="color:#990000;">[</span><b><span style="color:#000000;">RestService</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">"/events"</span><span style="color:#990000;">,</span> <span style="color:#ff0000;">"GET"</span><span style="color:#990000;">)]</span>
-<span style="color:#990000;">[</span><b><span style="color:#000000;">RestService</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">"/events/page/{Page}"</span><span style="color:#990000;">,</span> <span style="color:#ff0000;">"GET"</span><span style="color:#990000;">)]</span>
-<span style="color:#990000;">[</span><b><span style="color:#000000;">RestService</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">"/events/search/{SearchTerm}"</span><span style="color:#990000;">,</span> <span style="color:#ff0000;">"GET"</span><span style="color:#990000;">)]</span>
-<b><span style="color:#0000ff;">public</span></b> <b><span style="color:#0000ff;">class</span></b> <span style="color:#008080;">EventRequest</span>
-<span style="color:#ff0000;">{</span>
-    <span style="color:#990000;">[</span>DataMember<span style="color:#990000;">]</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">int</span><span style="color:#990000;">?</span> Page <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-    <span style="color:#990000;">[</span>DataMember<span style="color:#990000;">]</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">string</span> SearchTerm <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-<span style="color:#ff0000;">}</span></tt></pre></td></tr></tbody></table>
+```csharp
+[DataContract]
+[RestService("/events", "GET")]
+[RestService("/events/page/{Page}", "GET")]
+[RestService("/events/search/{SearchTerm}", "GET")]
+public class EventRequest
+{
+    [DataMember]
+    public int? Page { get; set; }
+    [DataMember]
+    public string SearchTerm { get; set; }
+}
+```
 
 The RestService annotation is telling ServiceStack "put it here, and make the URL’s like this". Based on the above, calls to /events/page/2 will pass in the number 2 for Page, and calls to /events/search/foo will pass in the search term foo. Now we should create our response object:
 
 **EventResponse**
 
-<table border="0" width="100%" cellpadding="10" bgcolor="#e8e8e8"><tbody><tr><td><pre><tt><span style="color:#990000;">[</span>DataContract<span style="color:#990000;">]</span>
-<b><span style="color:#0000ff;">public</span></b> <b><span style="color:#0000ff;">class</span></b> <span style="color:#008080;">EventResponse</span>
-<span style="color:#ff0000;">{</span>
-    <span style="color:#990000;">[</span>DataMember<span style="color:#990000;">]</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#008080;">IList&lt;Event&gt;</span> EventListings <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-    <span style="color:#990000;">[</span>DataMember<span style="color:#990000;">]</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">int</span> RecordsPerPage <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-    <span style="color:#990000;">[</span>DataMember<span style="color:#990000;">]</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">int</span> CurrentPage <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-    <span style="color:#990000;">[</span>DataMember<span style="color:#990000;">]</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">int</span><span style="color:#990000;">?</span> NextPage <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-    <span style="color:#990000;">[</span>DataMember<span style="color:#990000;">]</span>
-    <b><span style="color:#0000ff;">public</span></b> <span style="color:#009900;">bool</span> IsLastPage <span style="color:#ff0000;">{</span> <b><span style="color:#0000ff;">get</span></b><span style="color:#990000;">;</span> <b><span style="color:#0000ff;">set</span></b><span style="color:#990000;">;</span> <span style="color:#ff0000;">}</span>
-<span style="color:#ff0000;">}</span></tt></pre></td></tr></tbody></table>
+```csharp
+[DataContract]
+public class EventResponse
+{
+    [DataMember]
+    public IList<Event> EventListings { get; set; }
+    [DataMember]
+    public int RecordsPerPage { get; set; }
+    [DataMember]
+    public int CurrentPage { get; set; }
+    [DataMember]
+    public int? NextPage { get; set; }
+    [DataMember]
+    public bool IsLastPage { get; set; }
+}
+```
 
 And that’s it! At this point your test should pass1, and not only this but if you visit _/metadata_ you’ll see that ServiceStack has nailed up REST, CSV, JSV, JSON and SOAP services for you.
 
