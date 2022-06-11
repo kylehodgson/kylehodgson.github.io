@@ -37,7 +37,7 @@ The more I dig, I start to wonder if I'm almost better off sticking to a plain q
 
 Here's some code examples for the curious:
 
-```
+```csharp
 [DataContract]
 public class Heartbeat
 {

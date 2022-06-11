@@ -14,7 +14,9 @@ The promise of LINQ is that beautiful, expressive syntax once you have your tabl
 
 However the more I work with LINQ and Entity Framework, I wonder how pervasive it can or should be. Let's look at some real world scenarios:
 
-\- Medium scale application doing financial processing - Multi-database environments where you might need to query across 50+ databases - complex reporting needs, data marts, large scale transformation
+ - Medium scale application doing financial processing 
+ - Multi-database environments where you might need to query across 50+ databases 
+ - complex reporting needs, data marts, large scale transformation
 
 For instance, as it stands with Entity Framework if you want to use a stored procedure you have to perform the following steps:
 
