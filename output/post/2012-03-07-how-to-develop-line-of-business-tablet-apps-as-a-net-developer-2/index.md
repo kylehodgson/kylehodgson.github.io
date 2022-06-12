@@ -9,6 +9,8 @@ tags:
   - "phonegap"
 ---
 
+> _Outdated content warning._ The techniques in this article are now out of date. I'd be looking towards something like flutter or React Native today.
+
 _This blog post is a repost of an answer I wrote at [programmers.stackexchange.com](http://programmers.stackexchange.com/questions/138650)_
 
 A great way for a .NET developer to build line of business tablet apps that target Android or even iOS, is to leverage [JQuery Mobile](http://jquerymobile.com/) + [Phone Gap Build](http://build.phonegap.com/).
