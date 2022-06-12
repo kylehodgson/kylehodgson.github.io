@@ -10,6 +10,8 @@ tags:
   - "service-stack"
 ---
 
+> _Outdated content warning._ The techniques in this article are now out of date. I'd be looking towards something like flutter or React Native today.
+
 In a [previous](http://paymentnetworks.wordpress.com/2012/04/19/like-wcf-only-cleaner-9/) post, I wrote about making a simple web back using [ServiceStack](http://www.servicestack.net) back end that could serve up information about upcoming events. We automatically got SOAP, JSON, CSV and other end points. In today’s post, we’re going to look at a technique to consume them.
 
 > Want more on ServiceStack? [ServiceStack 4 Cookbook](http://kylehodgson.com/servicestack-cookbook/) contains over 70 recipes on building quality services and applications with ServiceStack!
