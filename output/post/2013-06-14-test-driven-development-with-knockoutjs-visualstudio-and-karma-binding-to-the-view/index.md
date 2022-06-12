@@ -16,38 +16,40 @@ In our [last post](http://kylehodgson.com/2013/05/29/test-driven-development-wit
 
 **Starting point**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#0000FF">var</font></b> ToDontList <font color="#990000">=</font> <b><font color="#0000FF">function</font></b> <font color="#990000">(</font>initialItems<font color="#990000">)</font> <font color="#FF0000">{</font>
-    <b><font color="#0000FF">var</font></b> self <font color="#990000">=</font> <b><font color="#0000FF">this</font></b><font color="#990000">;</font>
-<div></div>
-    <b><font color="#0000FF">if</font></b> <font color="#990000">(!(</font>initialItems <b><font color="#0000FF">instanceof</font></b> Array<font color="#990000">))</font>
-        initialItems <font color="#990000">=</font> <font color="#990000">[];</font>
-    self<font color="#990000">.</font>items <font color="#990000">=</font> ko<font color="#990000">.</font><b><font color="#000000">observableArray</font></b><font color="#990000">(</font>initialItems<font color="#990000">);</font>
-<div></div>
-    self<font color="#990000">.</font>add_item <font color="#990000">=</font> <b><font color="#0000FF">function</font></b> <font color="#990000">(</font>item<font color="#990000">)</font> <font color="#FF0000">{</font>
-        self<font color="#990000">.</font>items<font color="#990000">.</font><b><font color="#000000">push</font></b><font color="#990000">(</font>item<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">;</font>
-<font color="#FF0000">}</font><font color="#990000">;</font>
-<div></div>
-<b><font color="#000000">describe</font></b><font color="#990000">(</font><font color="#FF0000">"ToDontList View Model"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-    <b><font color="#0000FF">var</font></b> test_item1 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Test title"</font><font color="#990000">,</font>
-      <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_item2 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Another test title"</font><font color="#990000">,</font>
-      <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Another test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_items <font color="#990000">=</font> <font color="#990000">[</font>test_item1<font color="#990000">,</font> test_item2<font color="#990000">];</font>
-<div></div>
-    <b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Should be able to add items"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
-        <b><font color="#0000FF">var</font></b> target <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">();</font>
-        target<font color="#990000">.</font><b><font color="#000000">add_item</font></b><font color="#990000">(</font>test_item1<font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">0</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item1<font color="#990000">.</font>title<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">);</font>
-<div></div>
-    <b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Should be able to view existing items"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-        <b><font color="#0000FF">var</font></b> target <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">(</font>test_items<font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">().</font>length<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">0</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item1<font color="#990000">.</font>title<font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">1</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item2<font color="#990000">.</font>title<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">);</font>
-<font color="#FF0000">}</font><font color="#990000">);</font></tt></pre></td></tr></tbody></table>
+```javascript
+var ToDontList = function (initialItems) {
+    var self = this;
+
+    if (!(initialItems instanceof Array))
+        initialItems = [];
+    self.items = ko.observableArray(initialItems);
+
+    self.add_item = function (item) {
+        self.items.push(item);
+    };
+};
+
+describe("ToDontList View Model", function () {
+    var test_item1 = { "title": "Test title",
+      "description": "Test description", "complete": false };
+    var test_item2 = { "title": "Another test title",
+      "description": "Another test description", "complete": false };
+    var test_items = [test_item1, test_item2];
+
+    it("Should be able to add items", function() {
+        var target = new ToDontList();
+        target.add_item(test_item1);
+        expect(target.items()[0].title).toBe(test_item1.title);
+    });
+
+    it("Should be able to view existing items", function () {
+        var target = new ToDontList(test_items);
+        expect(target.items().length).toBe(2);
+        expect(target.items()[0].title).toBe(test_item1.title);
+        expect(target.items()[1].title).toBe(test_item2.title);
+    });
+});
+```
 
 * * *
 
@@ -59,32 +61,35 @@ In our [last post](http://kylehodgson.com/2013/05/29/test-driven-development-wit
 
 **Adding Knockout to the bottom of the page**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><font color="#990000">&lt;/</font>body<font color="#990000">&gt;</font>
-<font color="#990000">&lt;</font>script src<font color="#990000">=</font><font color="#FF0000">"Scripts/knockout-2.2.1.js"</font><font color="#990000">&gt;&lt;/</font>script<font color="#990000">&gt;</font>
-<font color="#990000">&lt;/</font>html<font color="#990000">&gt;</font></tt></pre></td></tr></tbody></table>
-
+```html
+</body>
+<script src="Scripts/knockout-2.2.1.js"></script>
+</html>
+```
 - Add a list with a data-bind like this: <ul data-bind="foreach: items">
 - Inside that <ul> tag add an <li> tag. We’ll place each "to Don’t" item here
 - Inside the list item we’ll create divs for the title and the description
 
 **Creating a list to hold data bound elements**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><font color="#990000">&lt;</font>ul data<font color="#990000">-</font>bind<font color="#990000">=</font><font color="#FF0000">"foreach: items"</font><font color="#990000">&gt;</font>
-  <font color="#990000">&lt;</font>li<font color="#990000">&gt;</font>
-    <font color="#990000">&lt;</font>div data<font color="#990000">-</font>bind<font color="#990000">=</font><font color="#FF0000">"text: title"</font><font color="#990000">&gt;&lt;/</font>div<font color="#990000">&gt;</font>
-    <font color="#990000">&lt;</font>div data<font color="#990000">-</font>bind<font color="#990000">=</font><font color="#FF0000">"text: description"</font><font color="#990000">&gt;&lt;/</font>div<font color="#990000">&gt;</font>
-  <font color="#990000">&lt;/</font>li<font color="#990000">&gt;</font>
-<font color="#990000">&lt;/</font>ul<font color="#990000">&gt;</font></tt></pre></td></tr></tbody></table>
-
+```html
+<ul data-bind="foreach: items">
+  <li>
+    <div data-bind="text: title"></div>
+    <div data-bind="text: description"></div>
+  </li>
+</ul>
+```
 - We’ll need to tell Knockout to boot, and inform it of what ViewModel we want to use.
 
 **Booting Knockout**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><font color="#990000">&lt;</font>script type<font color="#990000">=</font><font color="#FF0000">"text/javascript"</font><font color="#990000">&gt;</font>
-  <b><font color="#0000FF">var</font></b> viewModel <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">();</font>
-  ko<font color="#990000">.</font><b><font color="#000000">applyBindings</font></b><font color="#990000">(</font>viewModel<font color="#990000">);</font>
-<font color="#990000">&lt;/</font>script<font color="#990000">&gt;</font></tt></pre></td></tr></tbody></table>
-
+```html
+<script type="text/javascript">
+  var viewModel = new ToDontList();
+  ko.applyBindings(viewModel);
+</script>
+```
 Our JavaScript code for the ViewModel is still in the test spec. Now that we need it in its own file, it’s a good time to do that.
 
 * * *
@@ -93,7 +98,9 @@ Our JavaScript code for the ViewModel is still in the test spec. Now that we nee
 
 At this stage, our tests still pass, but we’ve created a web page that doesn’t work. If we hit ctrl-F5 to run the page, and then ctrl-shift-I to pull up Chrome’s debugger (assuming you are running Chrome), you should see the following error in the console:
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt>Uncaught ReferenceError<font color="#990000">:</font> ToDontList is not defined</tt></pre></td></tr></tbody></table>
+```
+Uncaught ReferenceError: ToDontList is not defined
+```
 
 - Highlight the ViewModel function object from our specification in Visual Studio
 - Cut the text of it with ctrl-x
@@ -107,20 +114,21 @@ At this stage we have a web view that should correctly import Knockout, import o
 
 **Wiring up test data for our ViewModel**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><font color="#990000">&lt;/</font>body<font color="#990000">&gt;</font>
-<font color="#990000">&lt;</font>script src<font color="#990000">=</font><font color="#FF0000">"Scripts/knockout-2.2.1.js"</font><font color="#990000">&gt;&lt;/</font>script<font color="#990000">&gt;</font>
-<font color="#990000">&lt;</font>script src<font color="#990000">=</font><font color="#FF0000">"src/ToDontList.js"</font><font color="#990000">&gt;&lt;/</font>script<font color="#990000">&gt;</font>
-<font color="#990000">&lt;</font>script type<font color="#990000">=</font><font color="#FF0000">"text/javascript"</font><font color="#990000">&gt;</font>
-    <b><font color="#0000FF">var</font></b> test_item1 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Test title"</font><font color="#990000">,</font>
-      <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_item2 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Another test title"</font><font color="#990000">,</font>
-      <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Another test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_items <font color="#990000">=</font> <font color="#990000">[</font>test_item1<font color="#990000">,</font> test_item2<font color="#990000">];</font>
-    <b><font color="#0000FF">var</font></b> viewModel <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">(</font>test_items<font color="#990000">);</font>
-    ko<font color="#990000">.</font><b><font color="#000000">applyBindings</font></b><font color="#990000">(</font>viewModel<font color="#990000">);</font>
-<font color="#990000">&lt;/</font>script<font color="#990000">&gt;</font>
-<font color="#990000">&lt;/</font>html<font color="#990000">&gt;</font></tt></pre></td></tr></tbody></table>
-
+```html
+</body>
+<script src="Scripts/knockout-2.2.1.js"></script>
+<script src="src/ToDontList.js"></script>
+<script type="text/javascript">
+    var test_item1 = { "title": "Test title",
+      "description": "Test description", "complete": false };
+    var test_item2 = { "title": "Another test title",
+      "description": "Another test description", "complete": false };
+    var test_items = [test_item1, test_item2];
+    var viewModel = new ToDontList(test_items);
+    ko.applyBindings(viewModel);
+</script>
+</html>
+```
 If we go to Chrome now and reload the page, we should see that our test items each show up now.
 
 **Viewing the page**  
@@ -130,141 +138,149 @@ Here are the files we’ve created to date and their current state:
 
 **spec/ToDontListSpec.js**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#000000">describe</font></b><font color="#990000">(</font><font color="#FF0000">"ToDontList View Model"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-    <b><font color="#0000FF">var</font></b> test_item1 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Test title"</font><font color="#990000">,</font>
-      <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_item2 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Another test title"</font><font color="#990000">,</font>
-      <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Another test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_items <font color="#990000">=</font> <font color="#990000">[</font>test_item1<font color="#990000">,</font> test_item2<font color="#990000">];</font>
-<div></div>
-    <b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Should be able to add items"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
-        <b><font color="#0000FF">var</font></b> target <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">();</font>
-        target<font color="#990000">.</font><b><font color="#000000">add_item</font></b><font color="#990000">(</font>test_item1<font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">0</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item1<font color="#990000">.</font>title<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">);</font>
-<div></div>
-    <b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Should be able to view existing items"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-        <b><font color="#0000FF">var</font></b> target <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">(</font>test_items<font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">().</font>length<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">0</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item1<font color="#990000">.</font>title<font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">1</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item2<font color="#990000">.</font>title<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">);</font>
-<font color="#FF0000">}</font><font color="#990000">);</font></tt></pre></td></tr></tbody></table>
+```javascript
+describe("ToDontList View Model", function () {
+    var test_item1 = { "title": "Test title",
+      "description": "Test description", "complete": false };
+    var test_item2 = { "title": "Another test title",
+      "description": "Another test description", "complete": false };
+    var test_items = [test_item1, test_item2];
+
+    it("Should be able to add items", function() {
+        var target = new ToDontList();
+        target.add_item(test_item1);
+        expect(target.items()[0].title).toBe(test_item1.title);
+    });
+
+    it("Should be able to view existing items", function () {
+        var target = new ToDontList(test_items);
+        expect(target.items().length).toBe(2);
+        expect(target.items()[0].title).toBe(test_item1.title);
+        expect(target.items()[1].title).toBe(test_item2.title);
+    });
+});
+```
 
 **src/ToDontList.js**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#0000FF">var</font></b> ToDontList <font color="#990000">=</font> <b><font color="#0000FF">function</font></b> <font color="#990000">(</font>initialItems<font color="#990000">)</font> <font color="#FF0000">{</font>
-    <b><font color="#0000FF">var</font></b> self <font color="#990000">=</font> <b><font color="#0000FF">this</font></b><font color="#990000">;</font>
-<div></div>
-    <b><font color="#0000FF">if</font></b> <font color="#990000">(!(</font>initialItems <b><font color="#0000FF">instanceof</font></b> Array<font color="#990000">))</font>
-        initialItems <font color="#990000">=</font> <font color="#990000">[];</font>
-    self<font color="#990000">.</font>items <font color="#990000">=</font> ko<font color="#990000">.</font><b><font color="#000000">observableArray</font></b><font color="#990000">(</font>initialItems<font color="#990000">);</font>
-<div></div>
-    self<font color="#990000">.</font>add_item <font color="#990000">=</font> <b><font color="#0000FF">function</font></b> <font color="#990000">(</font>item<font color="#990000">)</font> <font color="#FF0000">{</font>
-        self<font color="#990000">.</font>items<font color="#990000">.</font><b><font color="#000000">push</font></b><font color="#990000">(</font>item<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">;</font>
-<font color="#FF0000">}</font><font color="#990000">;</font></tt></pre></td></tr></tbody></table>
+```javascript
+var ToDontList = function (initialItems) {
+    var self = this;
+
+    if (!(initialItems instanceof Array))
+        initialItems = [];
+    self.items = ko.observableArray(initialItems);
+
+    self.add_item = function (item) {
+        self.items.push(item);
+    };
+};
+```
 
 **index.html**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#000080">&lt;!DOCTYPE</font></b> <font color="#009900">html</font><b><font color="#000080">&gt;</font></b>
-<b><font color="#0000FF">&lt;html</font></b> <font color="#009900">xmlns</font><font color="#990000">=</font><font color="#FF0000">"http://www.w3.org/1999/xhtml"</font><b><font color="#0000FF">&gt;</font></b>
-<b><font color="#0000FF">&lt;head&gt;</font></b>
-    <b><font color="#0000FF">&lt;title&gt;&lt;/title&gt;</font></b>
-<b><font color="#0000FF">&lt;/head&gt;</font></b>
-<b><font color="#0000FF">&lt;body&gt;</font></b>
-    <b><font color="#0000FF">&lt;div&gt;</font></b>
-        <b><font color="#0000FF">&lt;ul</font></b> <font color="#009900">data-bind</font><font color="#990000">=</font><font color="#FF0000">"foreach: items"</font><b><font color="#0000FF">&gt;</font></b>
-            <b><font color="#0000FF">&lt;li&gt;</font></b>
-                <b><font color="#0000FF">&lt;div</font></b> <font color="#009900">data-bind</font><font color="#990000">=</font><font color="#FF0000">"text: title"</font><b><font color="#0000FF">&gt;&lt;/div&gt;</font></b>
-                <b><font color="#0000FF">&lt;div</font></b> <font color="#009900">data-bind</font><font color="#990000">=</font><font color="#FF0000">"text: description"</font><b><font color="#0000FF">&gt;&lt;/div&gt;</font></b>
-            <b><font color="#0000FF">&lt;/li&gt;</font></b>
-        <b><font color="#0000FF">&lt;/ul&gt;</font></b>
-    <b><font color="#0000FF">&lt;/div&gt;</font></b>
-<b><font color="#0000FF">&lt;/body&gt;</font></b>
-<b><font color="#0000FF">&lt;script</font></b> <font color="#009900">src</font><font color="#990000">=</font><font color="#FF0000">"Scripts/knockout-2.2.1.js"</font><b><font color="#0000FF">&gt;&lt;/script&gt;</font></b>
-<b><font color="#0000FF">&lt;script</font></b> <font color="#009900">src</font><font color="#990000">=</font><font color="#FF0000">"src/ToDontList.js"</font><b><font color="#0000FF">&gt;&lt;/script&gt;</font></b>
-<b><font color="#0000FF">&lt;script</font></b> <font color="#009900">type</font><font color="#990000">=</font><font color="#FF0000">"text/javascript"</font><b><font color="#0000FF">&gt;</font></b>
-    <b><font color="#0000FF">var</font></b> test_item1 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Test title"</font><font color="#990000">,</font>
-      <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_item2 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Another test title"</font><font color="#990000">,</font>
-      <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Another test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_items <font color="#990000">=</font> <font color="#990000">[</font>test_item1<font color="#990000">,</font> test_item2<font color="#990000">];</font>
-    <b><font color="#0000FF">var</font></b> viewModel <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">(</font>test_items<font color="#990000">);</font>
-    ko<font color="#990000">.</font><b><font color="#000000">applyBindings</font></b><font color="#990000">(</font>viewModel<font color="#990000">);</font>
-<b><font color="#0000FF">&lt;/script&gt;</font></b>
-<b><font color="#0000FF">&lt;/html&gt;</font></b></tt></pre></td></tr></tbody></table>
+```html
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div>
+        <ul data-bind="foreach: items">
+            <li>
+                <div data-bind="text: title"></div>
+                <div data-bind="text: description"></div>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="Scripts/knockout-2.2.1.js"></script>
+<script src="src/ToDontList.js"></script>
+<script type="text/javascript">
+    var test_item1 = { "title": "Test title",
+      "description": "Test description", "complete": false };
+    var test_item2 = { "title": "Another test title",
+      "description": "Another test description", "complete": false };
+    var test_items = [test_item1, test_item2];
+    var viewModel = new ToDontList(test_items);
+    ko.applyBindings(viewModel);
+</script>
+</html>
+```
 
 **karma.conf.js**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><i><font color="#9A1900">// Karma configuration</font></i>
-<i><font color="#9A1900">// Generated on Thu May 30 2013 14:17:27 GMT-0400 (Eastern Daylight Time)</font></i>
-<div></div>
+```javascript
+// Karma configuration
+// Generated on Thu May 30 2013 14:17:27 GMT-0400 (Eastern Daylight Time)
 
-<i><font color="#9A1900">// base path, that will be used to resolve files and exclude</font></i>
-basePath <font color="#990000">=</font> <font color="#FF0000">''</font><font color="#990000">;</font>
-<div></div>
 
-<i><font color="#9A1900">// list of files / patterns to load in the browser</font></i>
-files <font color="#990000">=</font> <font color="#990000">[</font>
-  JASMINE<font color="#990000">,</font>
-  JASMINE_ADAPTER<font color="#990000">,</font>
-  <font color="#FF0000">'Scripts/knockout-2.2.1.js'</font><font color="#990000">,</font>
-  <font color="#FF0000">'src/**/*.js'</font><font color="#990000">,</font>
-  <font color="#FF0000">'spec/**/*Spec*.js'</font>
-<font color="#990000">];</font>
-<div></div>
+// base path, that will be used to resolve files and exclude
+basePath = '';
 
-<i><font color="#9A1900">// list of files to exclude</font></i>
-exclude <font color="#990000">=</font> <font color="#990000">[</font>
-<div></div>
-<font color="#990000">];</font>
-<div></div>
 
-<i><font color="#9A1900">// test results reporter to use</font></i>
-<i><font color="#9A1900">// possible values: 'dots', 'progress', 'junit'</font></i>
-reporters <font color="#990000">=</font> <font color="#990000">[</font><font color="#FF0000">'progress'</font><font color="#990000">];</font>
-<div></div>
+// list of files / patterns to load in the browser
+files = [
+  JASMINE,
+  JASMINE_ADAPTER,
+  'Scripts/knockout-2.2.1.js',
+  'src/**/*.js',
+  'spec/**/*Spec*.js'
+];
 
-<i><font color="#9A1900">// web server port</font></i>
-port <font color="#990000">=</font> <font color="#993399">9876</font><font color="#990000">;</font>
-<div></div>
 
-<i><font color="#9A1900">// cli runner port</font></i>
-runnerPort <font color="#990000">=</font> <font color="#993399">9100</font><font color="#990000">;</font>
-<div></div>
+// list of files to exclude
+exclude = [
 
-<i><font color="#9A1900">// enable / disable colors in the output (reporters and logs)</font></i>
-colors <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
-<div></div>
+];
 
-<i><font color="#9A1900">// level of logging</font></i>
-<i><font color="#9A1900">// possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG</font></i>
-logLevel <font color="#990000">=</font> LOG_INFO<font color="#990000">;</font>
-<div></div>
 
-<i><font color="#9A1900">// enable / disable watching file and executing tests whenever any file changes</font></i>
-autoWatch <font color="#990000">=</font> <b><font color="#0000FF">true</font></b><font color="#990000">;</font>
-<div></div>
+// test results reporter to use
+// possible values: 'dots', 'progress', 'junit'
+reporters = ['progress'];
 
-<i><font color="#9A1900">// Start these browsers, currently available:</font></i>
-<i><font color="#9A1900">// - Chrome</font></i>
-<i><font color="#9A1900">// - ChromeCanary</font></i>
-<i><font color="#9A1900">// - Firefox</font></i>
-<i><font color="#9A1900">// - Opera</font></i>
-<i><font color="#9A1900">// - Safari (only Mac)</font></i>
-<i><font color="#9A1900">// - PhantomJS</font></i>
-<i><font color="#9A1900">// - IE (only Windows)</font></i>
-browsers <font color="#990000">=</font> <font color="#990000">[</font><font color="#FF0000">'Chrome'</font><font color="#990000">];</font>
-<div></div>
 
-<i><font color="#9A1900">// If browser does not capture in given timeout [ms], kill it</font></i>
-captureTimeout <font color="#990000">=</font> <font color="#993399">60000</font><font color="#990000">;</font>
-<div></div>
+// web server port
+port = 9876;
 
-<i><font color="#9A1900">// Continuous Integration mode</font></i>
-<i><font color="#9A1900">// if true, it capture browsers, run tests and exit</font></i>
-singleRun <font color="#990000">=</font> <b><font color="#0000FF">false</font></b><font color="#990000">;</font></tt></pre></td></tr></tbody></table>
+
+// cli runner port
+runnerPort = 9100;
+
+
+// enable / disable colors in the output (reporters and logs)
+colors = true;
+
+
+// level of logging
+// possible values: LOG_DISABLE || LOG_ERROR || LOG_WARN || LOG_INFO || LOG_DEBUG
+logLevel = LOG_INFO;
+
+
+// enable / disable watching file and executing tests whenever any file changes
+autoWatch = true;
+
+
+// Start these browsers, currently available:
+// - Chrome
+// - ChromeCanary
+// - Firefox
+// - Opera
+// - Safari (only Mac)
+// - PhantomJS
+// - IE (only Windows)
+browsers = ['Chrome'];
+
+
+// If browser does not capture in given timeout [ms], kill it
+captureTimeout = 60000;
+
+
+// Continuous Integration mode
+// if true, it capture browsers, run tests and exit
+singleRun = false;
+```
 
 * * *
 

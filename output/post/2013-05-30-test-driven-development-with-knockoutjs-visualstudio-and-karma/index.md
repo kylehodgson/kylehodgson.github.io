@@ -75,14 +75,18 @@ Fire up a command line terminal and install karma with this npm command:
 
 **Installing NPM Packages**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt>npm install -g karma</tt></pre></td></tr></tbody></table>
+```
+npm install -g karma
+```
 
 Next, create a Visual Studio project. I choose the Empty ASP.NET MVC project. Then, in the Package Manager console I add what I need. We don’t strictly need to use nuget to install Jasmine, as karma will pull it down; but its helpful to install the Nuget package as then Visual Studio will be able to autocomplete Jasmine syntax JavaScript.
 
 **Nuget Packages**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt>install-package knockoutjs
-install-package jasminetest</tt></pre></td></tr></tbody></table>
+```
+install-package knockoutjs
+install-package jasminetest
+```
 
 ![images/tdd-knockout-4.png](images/tdd-knockout-4.png)
 
@@ -94,13 +98,15 @@ You’re going to need environment variables for the different browsers you want
 
 **toDontEnv.bat**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt>c<font color="#990000">:\</font>projects<font color="#990000">\</font>ToDontList<font color="#990000">&gt;</font>more toDontEnv<font color="#990000">.</font>bat
-<b><font color="#0000FF">set</font></b> <font color="#009900">HOME</font><font color="#990000">=</font>c<font color="#990000">:\</font>users<font color="#990000">\</font>khodgson<font color="#990000">\</font>
-<b><font color="#0000FF">set</font></b> <font color="#009900">PATH</font><font color="#990000">=%</font>PATH<font color="#990000">%;</font>c<font color="#990000">:\</font>nuget<font color="#990000">\</font>
-<b><font color="#0000FF">set</font></b> <font color="#009900">CHROME_BIN</font><font color="#990000">=%</font>HOME<font color="#990000">%\</font>AppData<font color="#990000">\</font>Local<font color="#990000">\</font>Google<font color="#990000">\</font>Chrome<font color="#990000">\</font>Application<font color="#990000">\</font>chrome<font color="#990000">.</font>exe
-<b><font color="#0000FF">set</font></b> <font color="#009900">IE_BIN</font><font color="#990000">=</font>C<font color="#990000">:\</font>Program Files<font color="#990000">\</font>Internet Explorer<font color="#990000">\</font>iexplore<font color="#990000">.</font>exe
-<b><font color="#0000FF">set</font></b> <font color="#009900">PHANTOMJS_BIN</font><font color="#990000">=%</font>HOME<font color="#990000">%\</font>AppData<font color="#990000">\</font>Roaming<font color="#990000">\</font>npm<font color="#990000">\</font>phantomjs<font color="#990000">.</font>cmd
-<b><font color="#0000FF">set</font></b> <font color="#009900">FIREFOX_BIN</font><font color="#990000">=</font>C<font color="#990000">:\</font>Program Files <font color="#990000">(</font>x86<font color="#990000">)\</font>Mozilla Firefox<font color="#990000">\</font>firefox<font color="#990000">.</font>exe</tt></pre></td></tr></tbody></table>
+```
+c:\projects\ToDontList>more toDontEnv.bat
+set HOME=c:\users\khodgson\
+set PATH=%PATH%;c:\nuget\
+set CHROME_BIN=%HOME%\AppData\Local\Google\Chrome\Application\chrome.exe
+set IE_BIN=C:\Program Files\Internet Explorer\iexplore.exe
+set PHANTOMJS_BIN=%HOME%\AppData\Roaming\npm\phantomjs.cmd
+set FIREFOX_BIN=C:\Program Files (x86)\Mozilla Firefox\firefox.exe
+```
 
 Next up initialize karma by running karma init in your project directory. Doing so will create a file called karma.conf.js that holds your selected answers, it’s simple to change things later by editing the file. The karma init command walks you through some fairly sane options, such as the default [Jasmine](http://pivotal.github.io/jasmine/) spec syntax and making sure you have at least one browser configured. Note the answers to the questions "which files do you want to test" - the pattern src/\*\*/\*.js matches any file that ends with js in any directory underneath the relative path src. Likewise, spec/\*\*/\*Spec\*.js will match any file that contains the word Spec under the spec relative path and all of its subdirectories.
 
@@ -119,44 +125,46 @@ Next up initialize karma by running karma init in your project directory. Doing 
 
 **Karma**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" style="margin:.2em 0;"><tbody><tr><td style="padding:.5em;"><pre style="margin:0;padding:0;">c:\projects\LiveToDontList\LiveToDontList&gt;karma init
-<div></div>
+```
+c:\projects\LiveToDontList\LiveToDontList>karma init
+
 Which testing framework do you want to use ?
 Press tab to list possible options. Enter to move to the next question.
-&gt; jasmine
-<div></div>
+> jasmine
+
 Do you want to use Require.js ?
 This will add Require.js adapter into files.
 Press tab to list possible options. Enter to move to the next question.
-&gt; no
-<div></div>
+> no
+
 Do you want to capture a browser automatically ?
 Press tab to list possible options. Enter empty string to move to the next question.
-&gt; Chrome
-&gt;
-<div></div>
+> Chrome
+>
+
 Which files do you want to test ?
 You can use glob patterns, eg. "js/*.js" or "test/**/*Spec.js".
 Enter empty string to move to the next question.
-&gt; src/**/*.js
+> src/**/*.js
 WARN [init]: There is no file matching this pattern.
-<div></div>
-&gt; spec/**/*Spec*.js
+
+> spec/**/*Spec*.js
 WARN [init]: There is no file matching this pattern.
-<div></div>
-&gt; Scripts/knockout-2.2.1.js
-&gt;
-<div></div>
+
+> Scripts/knockout-2.2.1.js
+>
+
 Any files you want to exclude ?
 You can use glob patterns, eg. "**/*.swp".
 Enter empty string to move to the next question.
-&gt;
-<div></div>
+>
+
 Do you want Testacular to watch all the files and run the tests on change ?
 Press tab to list possible options.
-&gt; yes
-<div></div>
-Config file generated at "c:\projects\LiveToDontList\LiveToDontList\karma.conf.js".</pre></td></tr></tbody></table>
+> yes
+
+Config file generated at "c:\projects\LiveToDontList\LiveToDontList\karma.conf.js".
+```
 
 * * *
 
@@ -192,16 +200,17 @@ This starting spec has just enough in it to prove that our test harness is worki
 
 **Source code for ToDontListSpec.js (for now):**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#0000FF">var</font></b> ToDontList <font color="#990000">=</font> <b><font color="#0000FF">function</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
-<div></div>
-<font color="#FF0000">}</font><font color="#990000">;</font>
-<div></div>
-<b><font color="#000000">describe</font></b><font color="#990000">(</font><font color="#FF0000">"ToDontList View Model"</font><font color="#990000">,</font><b><font color="#0000FF">function</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
-        <b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Has a working test harness"</font><font color="#990000">,</font><b><font color="#0000FF">function</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
-                <b><font color="#000000">expect</font></b><font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">).</font>not<font color="#990000">.</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">);</font>
-        <font color="#FF0000">}</font><font color="#990000">);</font>
-<font color="#FF0000">}</font><font color="#990000">);</font></tt></pre></td></tr></tbody></table>
+```javascript
+var ToDontList = function() {
 
+};
+
+describe("ToDontList View Model",function() {
+        it("Has a working test harness",function() {
+                expect(true).not.toBe(false);
+        });
+});
+```
 **VisualStudio and Karma**  
 ![images/tdd-knockout-9.png](images/tdd-knockout-9.png)
 
@@ -211,12 +220,14 @@ What we see below is a test that describes how we expect the API to work for add
 
 **Add this source code to the describe("ToDontList ViewModel") block in ToDontListSpec.js:**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#0000FF">var</font></b> test_item <font color="#990000">=</font> <font color="#FF0000">{</font><font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Test title"</font><font color="#990000">,</font><font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b><font color="#FF0000">}</font><font color="#990000">;</font>
-<b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Should be able to add items"</font><font color="#990000">,</font><b><font color="#0000FF">function</font></b><font color="#990000">()</font> <font color="#FF0000">{</font>
-        <b><font color="#0000FF">var</font></b> target <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">();</font>
-        target<font color="#990000">.</font><b><font color="#000000">add_item</font></b><font color="#990000">(</font>test_item<font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">0</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item<font color="#990000">.</font>title<font color="#990000">);</font>
-<font color="#FF0000">}</font><font color="#990000">);</font></tt></pre></td></tr></tbody></table>
+```javascript
+var test_item = {"title": "Test title","description": "Test description", "complete": false};
+it("Should be able to add items",function() {
+        var target = new ToDontList();
+        target.add_item(test_item);
+        expect(target.items()[0].title).toBe(test_item.title);
+});
+```
 
 With these lines inside of the describe() function from before, Jasmine should now instantiate one of our (currently empty) ViewModel objects, then try to execute the add\_item method (which we haven’t written yet) with an argument that’s a basic JavaScript test object. In a unit test we often speak of "Arrange, Act, and Assert":
 
@@ -228,29 +239,32 @@ The entire source file looks like this at this stage:
 
 **ToDontListSpec.js**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#0000FF">var</font></b> ToDontList <font color="#990000">=</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-<div></div>
-<font color="#FF0000">}</font><font color="#990000">;</font>
-<div></div>
-<b><font color="#000000">describe</font></b><font color="#990000">(</font><font color="#FF0000">"ToDontList View Model"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-    <b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Has a working test harness"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font><b><font color="#0000FF">true</font></b><font color="#990000">).</font>not<font color="#990000">.</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font><b><font color="#0000FF">false</font></b><font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">);</font>
-    <b><font color="#0000FF">var</font></b> test_item <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Test title"</font><font color="#990000">,</font> <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Should be able to add items"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-        <b><font color="#0000FF">var</font></b> target <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">();</font>
-        target<font color="#990000">.</font><b><font color="#000000">add_item</font></b><font color="#990000">(</font>test_item<font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">0</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item<font color="#990000">.</font>title<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">);</font>
-<font color="#FF0000">}</font><font color="#990000">);</font></tt></pre></td></tr></tbody></table>
+```javascript
+var ToDontList = function () {
 
+};
+
+describe("ToDontList View Model", function () {
+    it("Has a working test harness", function () {
+        expect(true).not.toBe(false);
+    });
+    var test_item = { "title": "Test title", "description": "Test description", "complete": false };
+    it("Should be able to add items", function () {
+        var target = new ToDontList();
+        target.add_item(test_item);
+        expect(target.items()[0].title).toBe(test_item.title);
+    });
+});
+```
 And my test results look like this:
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt>INFO <font color="#990000">[</font>watcher<font color="#990000">]:</font> Changed file <font color="#FF0000">"c:/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec.js"</font><font color="#990000">.</font>
-Chrome <font color="#993399">26.0</font> <font color="#990000">(</font>Windows<font color="#990000">)</font> ViewModel Should be able to add new items FAILED
-        TypeError<font color="#990000">:</font> Object <font color="#990000">[</font>object Object<font color="#990000">]</font> has no method <font color="#FF0000">'add_item'</font>
-            at null<font color="#990000">.&lt;</font>anonymous<font color="#990000">&gt;</font> <font color="#990000">(</font>c<font color="#990000">:</font>/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec<font color="#990000">.</font>js<font color="#990000">:</font><font color="#993399">12</font><font color="#990000">:</font><font color="#993399">16</font><font color="#990000">)</font>
-Chrome <font color="#993399">26.0</font> <font color="#990000">(</font>Windows<font color="#990000">):</font> Executed <font color="#993399">2</font> of <font color="#993399">2</font> <font color="#990000">(</font><font color="#993399">1</font> FAILED<font color="#990000">)</font> <font color="#990000">(</font><font color="#993399">0.281</font> secs <font color="#990000">/</font> <font color="#993399">0.005</font> secs<font color="#990000">)</font></tt></pre></td></tr></tbody></table>
+```
+INFO [watcher]: Changed file "c:/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec.js".
+Chrome 26.0 (Windows) ViewModel Should be able to add new items FAILED
+        TypeError: Object [object Object] has no method 'add_item'
+            at null.<anonymous> (c:/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec.js:12:16)
+Chrome 26.0 (Windows): Executed 2 of 2 (1 FAILED) (0.281 secs / 0.005 secs)
+```
 
 This is the "red" part of the red / green / refactor cycle. The next step is to make the test pass. We’ll need to add a method add\_item at a minimum.
 
@@ -264,14 +278,16 @@ We do need to make this test pass however. So, let’s try this for starters:
 
 **Changes to the ToDontList function in ToDontListSpec.js:**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#0000FF">var</font></b> ToDontList <font color="#990000">=</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-    <b><font color="#0000FF">var</font></b> self <font color="#990000">=</font> <b><font color="#0000FF">this</font></b><font color="#990000">;</font>
-    self<font color="#990000">.</font>items <font color="#990000">=</font> ko<font color="#990000">.</font><b><font color="#000000">observableArray</font></b><font color="#990000">();</font>
-<div></div>
-    self<font color="#990000">.</font>add_item <font color="#990000">=</font> <b><font color="#0000FF">function</font></b><font color="#990000">(</font>item<font color="#990000">)</font> <font color="#FF0000">{</font>
-        self<font color="#990000">.</font>items<font color="#990000">.</font><b><font color="#000000">push</font></b><font color="#990000">(</font>item<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">;</font>
-<font color="#FF0000">}</font><font color="#990000">;</font></tt></pre></td></tr></tbody></table>
+```javascript
+var ToDontList = function () {
+    var self = this;
+    self.items = ko.observableArray();
+
+    self.add_item = function(item) {
+        self.items.push(item);
+    };
+};
+```
 
 An observableArray is a Knockout feature, that as you may imagine, provides an array that you can use to bind to view items bi-directionally. It’s not immediately obvious that the items inside the observableArray are not themselves observable; changes to these items will not trigger binding; but adding or removing items from an observableArray will.
 
@@ -279,7 +295,9 @@ When I save this file, I see the following test results in my karma runner windo
 
 **Much better**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt>Chrome <font color="#993399">26.0</font> <font color="#990000">(</font>Windows<font color="#990000">):</font> Executed <font color="#993399">2</font> of <font color="#993399">2</font> SUCCESS <font color="#990000">(</font><font color="#993399">0.077</font> secs <font color="#990000">/</font> <font color="#993399">0.002</font> secs<font color="#990000">)</font></tt></pre></td></tr></tbody></table>
+```
+Chrome 26.0 (Windows): Executed 2 of 2 SUCCESS (0.077 secs / 0.002 secs)
+```
 
 * * *
 
@@ -303,68 +321,78 @@ We can simulate that easily enough with test items. For this next spec, we’re 
 
 **New contents of ToDontListSpec.js:**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#0000FF">var</font></b> ToDontList <font color="#990000">=</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-    <b><font color="#0000FF">var</font></b> self <font color="#990000">=</font> <b><font color="#0000FF">this</font></b><font color="#990000">;</font>
-    self<font color="#990000">.</font>items <font color="#990000">=</font> ko<font color="#990000">.</font><b><font color="#000000">observableArray</font></b><font color="#990000">();</font>
-<div></div>
-    self<font color="#990000">.</font>add_item <font color="#990000">=</font> <b><font color="#0000FF">function</font></b> <font color="#990000">(</font>item<font color="#990000">)</font> <font color="#FF0000">{</font>
-        self<font color="#990000">.</font>items<font color="#990000">.</font><b><font color="#000000">push</font></b><font color="#990000">(</font>item<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">;</font>
-<font color="#FF0000">}</font><font color="#990000">;</font>
-<div></div>
-<b><font color="#000000">describe</font></b><font color="#990000">(</font><font color="#FF0000">"ToDontList View Model"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-    <b><font color="#0000FF">var</font></b> test_item1 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Test title"</font><font color="#990000">,</font> <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_item2 <font color="#990000">=</font> <font color="#FF0000">{</font> <font color="#FF0000">"title"</font><font color="#990000">:</font> <font color="#FF0000">"Another test title"</font><font color="#990000">,</font> <font color="#FF0000">"description"</font><font color="#990000">:</font> <font color="#FF0000">"Another test description"</font><font color="#990000">,</font> <font color="#FF0000">"complete"</font><font color="#990000">:</font> <b><font color="#0000FF">false</font></b> <font color="#FF0000">}</font><font color="#990000">;</font>
-    <b><font color="#0000FF">var</font></b> test_items <font color="#990000">=</font> <font color="#990000">[</font>test_item1<font color="#990000">,</font> test_item2<font color="#990000">];</font>
-<div></div>
-    <b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Should be able to add items"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-        <b><font color="#0000FF">var</font></b> target <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">();</font>
-        target<font color="#990000">.</font><b><font color="#000000">add_item</font></b><font color="#990000">(</font>test_item1<font color="#990000">);</font>
-        <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">0</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item1<font color="#990000">.</font>title<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">);</font>
-<div></div>
-<font color="#FF0000">}</font><font color="#990000">);</font></tt></pre></td></tr></tbody></table>
+```javascript
+var ToDontList = function () {
+    var self = this;
+    self.items = ko.observableArray();
+
+    self.add_item = function (item) {
+        self.items.push(item);
+    };
+};
+
+describe("ToDontList View Model", function () {
+    var test_item1 = { "title": "Test title", "description": "Test description", "complete": false };
+    var test_item2 = { "title": "Another test title", "description": "Another test description", "complete": false };
+    var test_items = [test_item1, test_item2];
+
+    it("Should be able to add items", function () {
+        var target = new ToDontList();
+        target.add_item(test_item1);
+        expect(target.items()[0].title).toBe(test_item1.title);
+    });
+
+});
+```
 
 Now that we’ve refactored a bit, and our tests still pass, we can add a new spec for our new user story like this:
 
 **Add a new spec to the ToDontListSpec.js suite:**
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#000000">it</font></b><font color="#990000">(</font><font color="#FF0000">"Should be able to view existing items"</font><font color="#990000">,</font> <b><font color="#0000FF">function</font></b> <font color="#990000">()</font> <font color="#FF0000">{</font>
-    <b><font color="#0000FF">var</font></b> target <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">ToDontList</font></b><font color="#990000">(</font>test_items<font color="#990000">);</font>
-    <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">().</font>length<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">);</font>
-    <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">0</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item1<font color="#990000">.</font>title<font color="#990000">);</font>
-    <b><font color="#000000">expect</font></b><font color="#990000">(</font>target<font color="#990000">.</font><b><font color="#000000">items</font></b><font color="#990000">()[</font><font color="#993399">1</font><font color="#990000">].</font>title<font color="#990000">).</font><b><font color="#000000">toBe</font></b><font color="#990000">(</font>test_item2<font color="#990000">.</font>title<font color="#990000">);</font>
-<font color="#FF0000">}</font><font color="#990000">);</font></tt></pre></td></tr></tbody></table>
+```javascript
+it("Should be able to view existing items", function () {
+    var target = new ToDontList(test_items);
+    expect(target.items().length).toBe(2);
+    expect(target.items()[0].title).toBe(test_item1.title);
+    expect(target.items()[1].title).toBe(test_item2.title);
+});
+```
 
 This spec is expecting that our ViewModel object now accepts an argument that’s a list of items. The test expects the object to have initialized items() with the two items provided in the initial list. We haven’t implemented this functionality (we’re back to red), so when I hit Ctrl-S in Visual Studio the Karma error output looks like this:
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt>INFO <font color="#990000">[</font>watcher<font color="#990000">]:</font> Changed file <font color="#FF0000">"c:/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec.js"</font><font color="#990000">.</font>
-Chrome <font color="#993399">27.0</font> <font color="#990000">(</font>Windows<font color="#990000">)</font> ToDontList View Model Should be able to view existing items FAILED
-        Expected <font color="#993399">0</font> to be <font color="#993399">2</font><font color="#990000">.</font>
-        Error<font color="#990000">:</font> Expected <font color="#993399">0</font> to be <font color="#993399">2</font><font color="#990000">.</font>
-            at null<font color="#990000">.&lt;</font>anonymous<font color="#990000">&gt;</font> <font color="#990000">(</font>c<font color="#990000">:</font>/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec<font color="#990000">.</font>js<font color="#990000">:</font><font color="#993399">23</font><font color="#990000">:</font><font color="#993399">39</font><font color="#990000">)</font>
-        TypeError<font color="#990000">:</font> Cannot <b><font color="#0000FF">read</font></b> property <font color="#FF0000">'title'</font> of undefined
-            at null<font color="#990000">.&lt;</font>anonymous<font color="#990000">&gt;</font> <font color="#990000">(</font>c<font color="#990000">:</font>/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec<font color="#990000">.</font>js<font color="#990000">:</font><font color="#993399">24</font><font color="#990000">:</font><font color="#993399">33</font><font color="#990000">)</font>
-Chrome <font color="#993399">27.0</font> <font color="#990000">(</font>Windows<font color="#990000">):</font> Executed <font color="#993399">2</font> of <font color="#993399">2</font> <font color="#990000">(</font><font color="#993399">1</font> FAILED<font color="#990000">)</font> <font color="#990000">(</font><font color="#993399">0.353</font> secs <font color="#990000">/</font> <font color="#993399">0.006</font> secs<font color="#990000">)</font></tt></pre></td></tr></tbody></table>
+```
+INFO [watcher]: Changed file "c:/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec.js".
+Chrome 27.0 (Windows) ToDontList View Model Should be able to view existing items FAILED
+        Expected 0 to be 2.
+        Error: Expected 0 to be 2.
+            at null.<anonymous> (c:/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec.js:23:39)
+        TypeError: Cannot read property 'title' of undefined
+            at null.<anonymous> (c:/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec.js:24:33)
+Chrome 27.0 (Windows): Executed 2 of 2 (1 FAILED) (0.353 secs / 0.006 secs)
+```
 
 One quick change to the ViewModel to add the new required functionality however and we should be back to green:
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt><b><font color="#0000FF">var</font></b> ToDontList <font color="#990000">=</font> <b><font color="#0000FF">function</font></b> <font color="#990000">(</font>initialItems<font color="#990000">)</font> <font color="#FF0000">{</font>
-    <b><font color="#0000FF">var</font></b> self <font color="#990000">=</font> <b><font color="#0000FF">this</font></b><font color="#990000">;</font>
-<div></div>
-    <b><font color="#0000FF">if</font></b> <font color="#990000">(!(</font>initialItems <b><font color="#0000FF">instanceof</font></b> Array<font color="#990000">))</font>
-        initialItems <font color="#990000">=</font> <font color="#990000">[];</font>
-    self<font color="#990000">.</font>items <font color="#990000">=</font> ko<font color="#990000">.</font><b><font color="#000000">observableArray</font></b><font color="#990000">(</font>initialItems<font color="#990000">);</font>
-<div></div>
-    self<font color="#990000">.</font>add_item <font color="#990000">=</font> <b><font color="#0000FF">function</font></b><font color="#990000">(</font>item<font color="#990000">)</font> <font color="#FF0000">{</font>
-        self<font color="#990000">.</font>items<font color="#990000">.</font><b><font color="#000000">push</font></b><font color="#990000">(</font>item<font color="#990000">);</font>
-    <font color="#FF0000">}</font><font color="#990000">;</font>
-<font color="#FF0000">}</font><font color="#990000">;</font></tt></pre></td></tr></tbody></table>
+```javascript
+var ToDontList = function (initialItems) {
+    var self = this;
+
+    if (!(initialItems instanceof Array))
+        initialItems = [];
+    self.items = ko.observableArray(initialItems);
+
+    self.add_item = function(item) {
+        self.items.push(item);
+    };
+};
+```
 
 Now what we’re doing is giving our ViewModel function an argument where you can pass in any existing items. If an array is passed in to the observableArray, Knockout will ingest any initial items, such as from the server on page load. With this code in place, the tests go green:
 
-<table border="0" bgcolor="#e8e8e8" width="100%" cellpadding="10"><tbody><tr><td><pre><tt>INFO <font color="#990000">[</font>watcher<font color="#990000">]:</font> Changed file <font color="#FF0000">"c:/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec.js"</font><font color="#990000">.</font>
-Chrome <font color="#993399">27.0</font> <font color="#990000">(</font>Windows<font color="#990000">):</font> Executed <font color="#993399">2</font> of <font color="#993399">2</font> SUCCESS <font color="#990000">(</font><font color="#993399">0.298</font> secs <font color="#990000">/</font> <font color="#993399">0.003</font> secs<font color="#990000">)</font></tt></pre></td></tr></tbody></table>
+```
+INFO [watcher]: Changed file "c:/projects/LiveToDontList/LiveToDontList/spec/ToDontListSpec.js".
+Chrome 27.0 (Windows): Executed 2 of 2 SUCCESS (0.298 secs / 0.003 secs)
+```
 
 * * *
 

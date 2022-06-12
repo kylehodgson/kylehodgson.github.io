@@ -34,11 +34,15 @@ Angular’s team has developed a project called ["E2E"](http://docs.angularjs.or
 
 Create an application. For instance, here’s a simple, but [well structured example app](https://github.com/stephanebisson/e2e-example). You’ll also need have e2e and testacular installed.
 
-<table style="margin:.2em 0;" border="0" width="100%" bgcolor="#e8e8e8"><tbody><tr><td style="padding:.5em;"><pre style="margin:0;padding:0;">sudo npm install -g  testacular</pre></td></tr></tbody></table>
+```
+sudo npm install -g  testacular
+```
 
 If you’re in the directory with the index.html and app.js, you can start a simple web server on port 8000 like this:
 
-<table style="margin:.2em 0;" border="0" width="100%" bgcolor="#e8e8e8"><tbody><tr><td style="padding:.5em;"><pre style="margin:0;padding:0;">python -m SimpleHTTPServer</pre></td></tr></tbody></table>
+```
+python -m SimpleHTTPServer
+```
 
 * * *
 
@@ -46,28 +50,30 @@ If you’re in the directory with the index.html and app.js, you can start a sim
 
 You’ll need to create a testacular config file. It’s easy to specify the browsers, by using the testacular init command. It asks you a few questions and creates the file for you. That process looks like this, you can see us provide some sensible defaults below.
 
-<table style="margin:.2em 0;" border="0" width="100%" bgcolor="#e8e8e8"><tbody><tr><td style="padding:.5em;"><pre style="margin:0;padding:0;">$ testacular  init
-<div></div>
+```
+$ testacular  init
+
 Which testing framework do you want to use ?
 Press tab to list possible options. Enter to move to the next question.
-&gt; jasmine
-<div></div>
+> jasmine
+
 
 Do you want to capture a browser automatically ?
 Press tab to list possible options. Enter empty string to move to the next question.
-&gt; Chrome
-&gt; Firefox
-&gt; Safari
-<div></div>
+> Chrome
+> Firefox
+> Safari
+
 Which files do you want to test ?
 You can use glob patterns, eg. "js/*.js" or "test/**/*Spec.js".
 Enter empty string to move to the next question.
-&gt; spec/**/*.js
-<div></div>
+> spec/**/*.js
+
 
 Do you want Testacular to watch all the files and run the tests on change ?
 Press tab to list possible options.
-&gt; yes</pre></td></tr></tbody></table>
+> yes
+```
 
 * * *
 
@@ -75,28 +81,31 @@ Press tab to list possible options.
 
 Write a simple test scenario. If you’re used to Jasmine’s approach you might think of this like a Jasmine spec.
 
-<table border="0" width="100%" cellpadding="10" bgcolor="#e8e8e8"><tbody><tr><td><pre><tt><b><span style="color:#000000;">describe</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'my app'</span><span style="color:#990000;">,</span> <b><span style="color:#0000ff;">function</span></b><span style="color:#990000;">()</span> <span style="color:#ff0000;">{</span>
-        <b><span style="color:#000000;">it</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'should login'</span><span style="color:#990000;">,</span> <b><span style="color:#0000ff;">function</span></b><span style="color:#990000;">()</span> <span style="color:#ff0000;">{</span>
-                <b><span style="color:#000000;">browser</span></b><span style="color:#990000;">().</span><b><span style="color:#000000;">navigateTo</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'/'</span><span style="color:#990000;">);</span>
-<div></div>
-                <b><span style="color:#000000;">input</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'username'</span><span style="color:#990000;">).</span><b><span style="color:#000000;">enter</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'steph'</span><span style="color:#990000;">);</span>
-                <b><span style="color:#000000;">input</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'password'</span><span style="color:#990000;">).</span><b><span style="color:#000000;">enter</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'steph'</span><span style="color:#990000;">);</span>
-                <b><span style="color:#000000;">element</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'#login'</span><span style="color:#990000;">).</span><b><span style="color:#000000;">click</span></b><span style="color:#990000;">();</span>
-<div></div>
-                <b><span style="color:#000000;">expect</span></b><span style="color:#990000;">(</span><b><span style="color:#000000;">browser</span></b><span style="color:#990000;">().</span><b><span style="color:#000000;">location</span></b><span style="color:#990000;">().</span><b><span style="color:#000000;">url</span></b><span style="color:#990000;">()).</span><b><span style="color:#000000;">toBe</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">"/home"</span><span style="color:#990000;">);</span>
-<div></div>
-                <b><span style="color:#000000;">expect</span></b><span style="color:#990000;">(</span><b><span style="color:#000000;">element</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'#user'</span><span style="color:#990000;">).</span><b><span style="color:#000000;">text</span></b><span style="color:#990000;">()).</span><b><span style="color:#000000;">toEqual</span></b><span style="color:#990000;">(</span><span style="color:#ff0000;">'steph'</span><span style="color:#990000;">);</span>
-        <span style="color:#ff0000;">}</span><span style="color:#990000;">);</span>
-<span style="color:#ff0000;">}</span><span style="color:#990000;">);</span></tt></pre></td></tr></tbody></table>
+```javascript
+describe('my app', function() {
+        it('should login', function() {
+                browser().navigateTo('/');
 
+                input('username').enter('steph');
+                input('password').enter('steph');
+                element('#login').click();
+
+                expect(browser().location().url()).toBe("/home");
+
+                expect(element('#user').text()).toEqual('steph');
+        });
+});
+
+```
 * * *
 
 ## Start Testacular
 
 Once you start testacular, it’s going to watch your source code files for changes, and automatically display the test results on the console.
 
-<table style="margin:.2em 0;" border="0" width="100%" bgcolor="#e8e8e8"><tbody><tr><td style="padding:.5em;"><pre style="margin:0;padding:0;">testacular start &lt;name-of-config-file.js&gt;</pre></td></tr></tbody></table>
-
+```
+testacular start <name-of-config-file.js>
+```
 Edit your app or your tests and see it run! The end result looks something like this:
 
 ![e2e-in-action.png](images/e2e-in-action.png)
